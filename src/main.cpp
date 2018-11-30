@@ -34,7 +34,18 @@ int main()
 
   PID pid;
   // TODO: Initialize the pid variable.
-  pid.Init(0.15, 0.0, 2.5);
+  //pid.Init(0.15, 0.0, 2.5); //normal
+  pid.Init(0.15, 0.0, 1.0); //best
+  //pid.Init(0.15, 0.0, 1.5); //better
+  //pid.Init(0.2, 0.0, 1.5); //better
+  //pid.Init(0.3, 0.0, 1.0); //swing bigger
+  //pid.Init(0.3, 0.0, 2.5); //better than upper case
+  //pid.Init(0.15, 0.1, 2.5); //couldn't go
+  //pid.Init(0.15, 0.1, 1.0); //couldn't go
+  //pid.Init(0.15, 0.0, 1.5); //swing when curve
+  //pid.Init(0.3, 0.0, 3.5);//not good
+  //pid.Init(0.15, 0.0, 0.1); //oversteer..
+
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
