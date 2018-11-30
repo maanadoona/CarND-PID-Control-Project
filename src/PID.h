@@ -17,6 +17,11 @@ public:
   double Ki;
   double Kd;
 
+  double diff;
+  double int_cte;
+  double prev_cte;
+
+  double steer;
   /*
   * Constructor
   */
