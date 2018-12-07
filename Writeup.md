@@ -129,7 +129,7 @@ Self-Driving Car Engineer Nanodegree Program
 
 
 ## Result
-I think the steering values average 
+I think Kp(0.05), Ki(0.0), Kd(1.0) are the best PID parameters.
 
 ### 1st
 ![alt text][image001]
