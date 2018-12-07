@@ -33,6 +33,7 @@ void PID::UpdateError(double cte) {
 }
 
 double PID::TotalError() {
+
     if(steer > 1)
     {
         steer = 1;

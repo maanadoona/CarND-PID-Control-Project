@@ -3,6 +3,8 @@
 #include "json.hpp"
 #include "PID.h"
 #include <math.h>
+#include <fstream>
+#include <vector>
 
 // for convenience
 using json = nlohmann::json;
@@ -28,14 +30,39 @@ std::string hasData(std::string s) {
   return "";
 }
 
+int cnt = 0;
+int cnt_u_err = 0;
+int cnt_l_err = 0;
+
+//std::Matrix m_pid(3, 3);
+
+double p_0 = 0.0;
+double p_1 = 0.0;
+double p_2 = 0.0;
+int env_cnt = 0;
+
+double refVal[6] = {0.5, 1.0, 1.5, 2.0, 2.5, 3.0};
+std::ofstream myfile;
+std::vector<std::vector<double>> testVector;
+std::string s;
+PID pid;
+
+template <typename T>
+std::string to_string_with_precision(const T a_value, const int n = 6)
+{
+    std::ostringstream out;
+    out.precision(n);
+    out << std::fixed << a_value;
+    return out.str();
+}
+
 int main()
 {
   uWS::Hub h;
 
-  PID pid;
   // TODO: Initialize the pid variable.
   //pid.Init(0.15, 0.0, 2.5); //normal
-  pid.Init(0.15, 0.0, 1.0); //best
+  //pid.Init(0.15, 0.0, 1.0); //best
   //pid.Init(0.15, 0.0, 1.5); //better
   //pid.Init(0.2, 0.0, 1.5); //better
   //pid.Init(0.3, 0.0, 1.0); //swing bigger
@@ -46,6 +73,56 @@ int main()
   //pid.Init(0.3, 0.0, 3.5);//not good
   //pid.Init(0.15, 0.0, 0.1); //oversteer..
 
+
+
+  //p_0 = 0.05, p_1 = 0.0, p_2 = 0.5;
+  //p_0 = 0.1, p_1 = 0.0, p_2 = 0.5;  //////
+  //p_0 = 0.15, p_1 = 0.0, p_2 = 0.5;
+  //p_0 = 0.2, p_1 = 0.0, p_2 = 0.5;
+  //p_0 = 0.25, p_1 = 0.0, p_2 = 0.5;
+  //p_0 = 0.3, p_1 = 0.0, p_2 = 0.5;
+
+  p_0 = 0.05, p_1 = 0.0, p_2 = 1.0;  /////
+  //p_0 = 0.1, p_1 = 0.0, p_2 = 1.0;
+  //p_0 = 0.15, p_1 = 0.0, p_2 = 1.0;
+  //p_0 = 0.2, p_1 = 0.0, p_2 = 1.0;
+  //p_0 = 0.25, p_1 = 0.0, p_2 = 1.0;
+  //p_0 = 0.3, p_1 = 0.0, p_2 = 1.0;
+
+
+  //p_0 = 0.05, p_1 = 0.0, p_2 = 1.5;  ///////
+  //p_0 = 0.1, p_1 = 0.0, p_2 = 1.5;
+  //p_0 = 0.15, p_1 = 0.0, p_2 = 1.5;
+  //p_0 = 0.2, p_1 = 0.0, p_2 = 1.5;
+  //p_0 = 0.25, p_1 = 0.0, p_2 = 1.5;
+  //p_0 = 0.3, p_1 = 0.0, p_2 = 1.5;
+
+
+  //p_0 = 0.05, p_1 = 0.0, p_2 = 2.0;
+  //p_0 = 0.1, p_1 = 0.0, p_2 = 2.0;
+  //p_0 = 0.15, p_1 = 0.0, p_2 = 2.0;
+  //p_0 = 0.2, p_1 = 0.0, p_2 = 2.0;
+  //p_0 = 0.25, p_1 = 0.0, p_2 = 2.0;
+  //p_0 = 0.3, p_1 = 0.0, p_2 = 2.0;
+
+  //p_0 = 0.05, p_1 = 0.0, p_2 = 2.5;
+ // p_0 = 0.1, p_1 = 0.0, p_2 = 2.5;
+  //p_0 = 0.15, p_1 = 0.0, p_2 = 2.5;
+  //p_0 = 0.2, p_1 = 0.0, p_2 = 2.5;
+  //p_0 = 0.25, p_1 = 0.0, p_2 = 2.5;
+  //p_0 = 0.3, p_1 = 0.0, p_2 = 2.5;
+
+  //p_0 = 0.05, p_1 = 0.0, p_2 = 3.0;
+  //p_0 = 0.1, p_1 = 0.0, p_2 = 3.0;
+  //p_0 = 0.15, p_1 = 0.0, p_2 = 3.0;
+  //p_0 = 0.2, p_1 = 0.0, p_2 = 3.0;
+  //p_0 = 0.25, p_1 = 0.0, p_2 = 3.0;
+  //p_0 = 0.3, p_1 = 0.0, p_2 = 3.0;
+
+  pid.Init(p_0, p_1, p_2);
+  s = "result_" + to_string_with_precision(p_0, 2) + "_" + to_string_with_precision(p_1, 2) + "_" + to_string_with_precision(p_2, 2) + ".csv";
+
+  myfile.open(s);
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
@@ -74,6 +151,32 @@ int main()
 
           // DEBUG
           std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
+          //std::cout << "Count: " << count+=1 << std::endl;
+          cnt+=1;
+          std::cout << "Count: " << cnt << std::endl;
+
+/*
+          if(steer_value > 1)
+          {
+              steer_value = 1;
+              std::cout << "+++++++++++++++Upper Error" << std::endl;
+          }
+          if(steer_value < -1)
+          {
+              steer_value = -1;
+              std::cout << "---------------Lower Error" << std::endl;
+          }
+*/
+          if(cnt > 1000)
+          {
+            //cnt = 0;
+            myfile.close();
+            //set_env();
+          }
+          else
+          {
+              myfile << cnt << "," << cte << "," << steer_value << "," << std::endl;
+          }
 
           json msgJson;
           msgJson["steering_angle"] = steer_value;
@@ -106,12 +209,13 @@ int main()
   });
 
   h.onConnection([&h](uWS::WebSocket<uWS::SERVER> ws, uWS::HttpRequest req) {
-    std::cout << "Connected!!!" << std::endl;
+    std::cout << "Connected!!!" << std::endl;    
   });
 
   h.onDisconnection([&h](uWS::WebSocket<uWS::SERVER> ws, int code, char *message, size_t length) {
     ws.close();
     std::cout << "Disconnected" << std::endl;
+    //myfile.close();
   });
 
   int port = 4567;
