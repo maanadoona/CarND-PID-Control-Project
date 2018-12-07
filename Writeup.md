@@ -44,12 +44,23 @@ Self-Driving Car Engineer Nanodegree Program
 [image505]: ./result/result_0.30_0.00_3.00.csv.png
 
 
+## Basic Build Instructions
+
+1. Clone this repo.
+2. Make a build directory: `mkdir build && cd build`
+3. Compile: `cmake .. && make`
+4. Run it: `./pid`. 
+
+==> I uploaded my build folder.
+
+
 ## Implementation
 1. PID Control
  - I wrote the code in PID.cpp
    (P : Propotional, Integral, Differential) are implemented.
 
 2. PID Values for finding best parameters
+==> I made AnalysisData.ipynb In there, I displayed .csv files which were got from simulation and analyzed them.
 
 | Kp	|
 |:-----:|
