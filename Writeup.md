@@ -43,6 +43,11 @@ Self-Driving Car Engineer Nanodegree Program
 [image405]: ./result/result_0.25_0.00_3.00.csv.png
 [image505]: ./result/result_0.30_0.00_3.00.csv.png
 
+[imagePcte]: ./result/P-Effects_0.00_1.00_cte.png
+[imagePsteer]: ./result/P-Effects_0.00_1.00_steer.png
+[imageDcte]: ./result/D-Effects_0.10_0.00_cte.png
+[imageDsteer]: ./result/D-Effects_0.10_0.00_steer.png
+
 
 ## Basic Build Instructions
 
@@ -50,8 +55,6 @@ Self-Driving Car Engineer Nanodegree Program
 2. Make a build directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
 4. Run it: `./pid`. 
-
-==> I uploaded my build folder.
 
 
 ## Implementation
@@ -93,6 +96,7 @@ Self-Driving Car Engineer Nanodegree Program
 ## Analysis
 - I set the parameter combinations of (Kp, Ki, Kd).
 
+### Test all parameters
 ![alt text][image000]
 ![alt text][image100]
 ![alt text][image200]
@@ -137,6 +141,29 @@ Self-Driving Car Engineer Nanodegree Program
 ![alt text][image305]
 ![alt text][image405]
 ![alt text][image505]
+
+### P, I, D Effects
+1) P effects
+ ==> In below pics, you could see if P is bigger then steer is bigger. P is proportional to the cte.
+ 
+![alt text][imagePcte]
+
+![alt text][imagePsteer]
+
+2) I effects
+ - I makes errors, so car couldn't go straight.
+  ==> should set zero
+
+3) D effects
+ ==> In below pics, you could see if D is bigger then steer is bigger. but D makes stability.
+
+
+![alt text][imageDcte]
+
+![alt text][imageDsteer]
+
+
+
 
 
 ## Result
